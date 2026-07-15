@@ -22,7 +22,7 @@ class _AddressModalState extends State<AddressModal> {
   late String _addressType;
 
   late final TextEditingController _streetCtrl;
-  late final TextEditingController _NigeriaPostCtrl;
+  late final TextEditingController _ghanaPostCtrl;
   late final TextEditingController _w3wCtrl;
 
   @override
@@ -31,8 +31,8 @@ class _AddressModalState extends State<AddressModal> {
     _addressType = widget.initial?.type ?? 'Home';
     _streetCtrl =
         TextEditingController(text: widget.initial?.street ?? '');
-    _NigeriaPostCtrl =
-        TextEditingController(text: widget.initial?.NigeriaPost ?? '');
+    _ghanaPostCtrl =
+        TextEditingController(text: widget.initial?.ghanaPost ?? '');
     _w3wCtrl =
         TextEditingController(text: widget.initial?.what3words ?? '');
   }
@@ -40,7 +40,7 @@ class _AddressModalState extends State<AddressModal> {
   @override
   void dispose() {
     _streetCtrl.dispose();
-    _NigeriaPostCtrl.dispose();
+    _ghanaPostCtrl.dispose();
     _w3wCtrl.dispose();
     super.dispose();
   }
@@ -51,7 +51,7 @@ class _AddressModalState extends State<AddressModal> {
     final address = Address(
       type: _addressType,
       street: _streetCtrl.text.trim(),
-      NigeriaPost: _NigeriaPostCtrl.text.trim(),
+      ghanaPost: _ghanaPostCtrl.text.trim(),
       what3words: _w3wCtrl.text.trim(),
     );
 
@@ -129,7 +129,7 @@ class _AddressModalState extends State<AddressModal> {
 
                 // ── Nigeria Post GPS (optional) ─────────────────────────
                 _field(
-                  controller: _NigeriaPostCtrl,
+                  controller: _ghanaPostCtrl,
                   label: 'Nigeria Post GPS (Optional)',
                   hint: 'e.g., GA-123-4567',
                   icon: Icons.share_location_rounded,

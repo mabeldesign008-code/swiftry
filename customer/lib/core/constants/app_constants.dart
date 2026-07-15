@@ -35,10 +35,16 @@ class AppConstants {
       'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
   static const String osmUserAgent = 'swiftree.app';
 
-  // ── Default location (Kumasi, Nigeria) ──────────────────────────────────────
-  static const double defaultLat = 6.6884;
-  static const double defaultLng = -1.6244;
-  static const String defaultLocationName = 'Kumasi, Nigeria';
+  // ── Default location (Accra, Ghana) - corrected from previous Nigeria label ──
+  // Accra is default for Ghana-centric launch, Kumasi kept as secondary
+  static const double defaultLat = 5.6037; // Accra, Ghana
+  static const double defaultLng = -0.1870;
+  static const String defaultLocationName = 'Accra, Ghana';
+
+  // Kumasi coordinates (secondary market) - Ghana, not Nigeria
+  static const double kumasiLat = 6.6884;
+  static const double kumasiLng = -1.6244;
+  static const String kumasiLocationName = 'Kumasi, Ghana';
 
   // ── Delivery / fee config ─────────────────────────────────────────────────
   static const double deliveryFeeDefault = 5.00;

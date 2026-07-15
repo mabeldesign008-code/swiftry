@@ -37,9 +37,12 @@ class AppConstants {
   static const int maxBusinessNameLength = 100;
   static const int maxDescriptionLength = 500;
 
-  // Nigeria specific
-  static const String countryCode = '+233';
+  // Ghana specific (corrected from Nigeria label) - primary market
+  static const String countryCode = '+233'; // Ghana
   static const int phoneNumberLength = 9; // Without country code
+  static const String countryName = 'Ghana';
+  static const String countryCurrency = 'GHS';
+  static const String countryCurrencySymbol = '₵';
 
   // Business types
   static const String businessTypeRestaurant = 'restaurant';
@@ -123,8 +126,8 @@ class AppConstants {
   static const Duration cacheMediumDuration = Duration(minutes: 30);
   static const Duration cacheLongDuration = Duration(hours: 24);
 
-  // Map defaults
-  static const double defaultLatitude = 5.6037; // Accra, Nigeria
+  // Map defaults - Accra, Ghana
+  static const double defaultLatitude = 5.6037;
   static const double defaultLongitude = -0.1870;
   static const double defaultZoom = 13.0;
 
@@ -133,8 +136,8 @@ class AppConstants {
   static const double maxRating = 5.0;
   static const double ratingStep = 0.5;
 
-  // Nigeria regions
-  static const List<String> NigeriaRegions = [
+  // Ghana regions (corrected from Nigeria label)
+  static const List<String> GhanaRegions = [
     'Greater Accra',
     'Ashanti',
     'Western',
@@ -145,10 +148,21 @@ class AppConstants {
     'Upper West',
     'Volta',
     'Brong-Ahafo',
+    'Bono',
+    'Bono East',
+    'Ahafo',
+    'Savannah',
+    'North East',
+    'Oti',
+    'Western North',
   ];
 
-  // Major Nigeria cities
-  static const List<String> NigeriaCities = [
+  // Deprecated aliases for backward compat
+  @Deprecated('Use GhanaRegions')
+  static List<String> get NigeriaRegions => GhanaRegions;
+
+  // Major Ghana cities
+  static const List<String> GhanaCities = [
     'Accra',
     'Kumasi',
     'Takoradi',
@@ -160,6 +174,9 @@ class AppConstants {
     'Ho',
     'Sunyani',
   ];
+
+  @Deprecated('Use GhanaCities')
+  static List<String> get NigeriaCities => GhanaCities;
 
   // Date formats
   static const String dateFormatDisplay = 'MMM dd, yyyy';

@@ -182,7 +182,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     
                     const CustomTextField(
                       name: 'digitalAddress',
-                      label: 'Digital Address (NigeriaPost GPS)',
+                      label: 'Digital Address (GhanaPost GPS)',
                       hintText: 'GA-183-1234',
                     ),
                     const SizedBox(height: 16),

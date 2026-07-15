@@ -6,7 +6,7 @@ import 'package:swiftree/services/place_api_provider.dart';
 import 'package:swiftree/models/place_models.dart';
 import 'package:uuid/uuid.dart';
 
-/// Full-screen location search with 3 tabs: Search, Nigeria Post GPS, what3words
+/// Full-screen location search with 3 tabs: Search, GhanaPostGPS, what3words
 /// Adapted from Houzi's AddressSearch pattern with tabbed interface
 class LocationSearchScreen extends StatefulWidget {
   final Address? initialAddress;
@@ -29,7 +29,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen>
   bool _isSearching = false;
   PlaceDetails? _selectedPlace;
 
-  // Nigeria Post GPS tab
+  // GhanaPostGPS tab
   final TextEditingController _gpsController = TextEditingController();
   final _gpsFormKey = GlobalKey<FormState>();
 
@@ -50,7 +50,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen>
     // Pre-fill if editing
     if (widget.initialAddress != null) {
       _searchController.text = widget.initialAddress!.street;
-      _gpsController.text = widget.initialAddress!.NigeriaPost ?? '';
+      _gpsController.text = widget.initialAddress!.ghanaPost ?? '';
       _w3wController.text = widget.initialAddress!.what3words ?? '';
     }
 
@@ -156,12 +156,12 @@ class _LocationSearchScreenState extends State<LocationSearchScreen>
         );
         break;
 
-      case 1: // Nigeria Post GPS tab
+      case 1: // GhanaPostGPS tab
         if (!_gpsFormKey.currentState!.validate()) return;
         address = Address(
           type: _addressType,
           street: '', // GPS is primary identifier
-          NigeriaPost: _gpsController.text.trim(),
+          ghanaPost: _gpsController.text.trim(),
         );
         break;
 
@@ -308,7 +308,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen>
         indicatorWeight: 3,
         tabs: const [
           Tab(text: '🔍 Search'),
-          Tab(text: '📍 Nigeria Post'),
+          Tab(text: '📍 GhanaPost'),
           Tab(text: '#️⃣ what3words'),
         ],
       ),
@@ -469,7 +469,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Nigeria Post GPS',
+              'GhanaPostGPS',
               style: AppFonts.inter(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -478,7 +478,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen>
             ),
             const SizedBox(height: 8),
             Text(
-              'Enter your Nigeria Post GPS digital address code',
+              'Enter your GhanaPostGPS digital address code',
               style: AppFonts.inter(
                 fontSize: 13,
                 color: const Color(0xFF64748B),
@@ -519,7 +519,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen>
                 ),
                 validator: (v) {
                   if (v == null || v.trim().isEmpty) {
-                    return 'Please enter your Nigeria Post GPS code';
+                    return 'Please enter your GhanaPostGPS code';
                   }
                   final pattern =
                       RegExp(r'^[A-Z]{2}-\d{3,4}-\d{4}$', caseSensitive: false);

@@ -141,15 +141,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   child: Column(
                     children: [
                       const Spacer(flex: 12),
-                      // Logo
-                      Center(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 140,
-                          height: 147,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                      // Logo removed
                       const Spacer(flex: 15),
                       // Tagline
                       Padding(

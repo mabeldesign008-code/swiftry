@@ -9,16 +9,24 @@ import '../providers/order_history_provider.dart';
 import '../providers/rider_location_provider.dart';
 import '../widgets/notification_overlay.dart';
 
+/// Deprecated simulation service - used only when Env.enableMockSimulation = true
+/// TODO Backend: Remove this entirely once real-time tracking via WebSocket/FCM is implemented
+/// Backend should provide:
+/// - POST /orders -> returns order with server ID
+/// - WebSocket /ws/orders/:id/track for status updates
+/// - FCM push for notifications
+/// - Rider location streaming via GET /orders/:id/rider-location
+
 // ── Step definition ───────────────────────────────────────────────────────
 
 class _SimStep {
-  final int delaySeconds;       // seconds after the PREVIOUS step
+  final int delaySeconds;
   final OrderStatus status;
-  final String statusMessage;   // shown in active-order banner + tracking card
+  final String statusMessage;
   final String notifTitle;
   final String notifBody;
   final NotificationType notifType;
-  final bool startRiderMovement; // triggers riderLocationProvider journey
+  final bool startRiderMovement;
 
   const _SimStep({
     required this.delaySeconds,
@@ -213,12 +221,11 @@ List<_SimStep> _stepsFor(ServiceType t, String vendorName) {
 
 // ── Service ───────────────────────────────────────────────────────────────
 
+@Deprecated('Use real-time backend tracking - will be removed when API ready')
 class OrderSimulationService {
   /// Starts the auto-progression for [order]. Call immediately after
   /// `orderHistoryProvider.placeOrder(order)` in CheckoutScreen.
-  ///
-  /// [context] is needed for the in-app overlay. It must be a context that
-  /// has an [Overlay] ancestor (any screen context satisfies this).
+  /// Updated to support multi-order: now updates specific orderId in activeOrdersProvider.
   static void start({
     required WidgetRef ref,
     required BuildContext context,
@@ -240,14 +247,20 @@ class OrderSimulationService {
     final step = steps[index];
 
     Timer(Duration(seconds: step.delaySeconds), () {
-      // Guard: context might be gone if user force-navigated away
       if (!context.mounted) return;
 
       // 1. Update order status in history
       ref.read(orderHistoryProvider.notifier).updateStatus(orderId, step.status);
 
-      // 2. Update active order banner message
-      ref.read(activeOrderProvider.notifier).updateStatus(step.statusMessage);
+      // 2. Update active orders banner message (multi-support)
+      try {
+        ref.read(activeOrdersProvider.notifier).updateStatus(orderId, step.statusMessage);
+      } catch (_) {
+        // Fallback to old single provider for backward compat
+        try {
+          ref.read(activeOrderProvider.notifier).updateStatus(step.statusMessage);
+        } catch (_) {}
+      }
 
       // 3. Start rider map movement if this step triggers it
       if (step.startRiderMovement) {
@@ -267,20 +280,34 @@ class OrderSimulationService {
       ref.read(notificationsProvider.notifier).add(notif);
 
       // 5. Show in-app overlay toast
-      NotificationOverlay.show(
-        context,
-        title: step.notifTitle,
-        body: step.notifBody,
-        type: step.notifType,
-      );
+      try {
+        NotificationOverlay.show(
+          context,
+          title: step.notifTitle,
+          body: step.notifBody,
+          type: step.notifType,
+        );
+      } catch (_) {}
 
-      // 6. When delivered, clear the active order banner
+      // 6. When delivered, clear the active order banner for this order
       if (step.status == OrderStatus.delivered) {
-        ref.read(activeOrderProvider.notifier).clearOrder();
+        try {
+          ref.read(activeOrdersProvider.notifier).clearOrder(orderId);
+        } catch (_) {
+          try {
+            ref.read(activeOrderProvider.notifier).clearOrder();
+          } catch (_) {}
+        }
       }
 
       // 7. Schedule the next step
       _scheduleSteps(ref, context, orderId, serviceType, steps, index + 1);
     });
+  }
+
+  /// Cancel simulation for an order (e.g., on user cancel)
+  static void cancel(String orderId, WidgetRef ref) {
+    // In mock, timers will still fire but checks will fail after status terminal
+    ref.read(riderLocationProvider.notifier).stop();
   }
 }

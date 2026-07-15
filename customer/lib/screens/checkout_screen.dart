@@ -56,7 +56,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   Address _address = const Address(
     type: 'Home',
     street: 'Osu, Oxford Street',
-    NigeriaPost: 'GA-123-4567',
+    ghanaPost: 'GA-123-4567',
   );
 
   // Promo code — previously the "Apply" button was a no-op (onPressed: () {}).
@@ -620,8 +620,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   // ── Address ───────────────────────────────────────────────────────────────
   Widget _buildAddressRow() {
     final line2 = _address.street.isNotEmpty ? _address.street : _address.displayLabel;
-    final String? line3 = _address.NigeriaPost.isNotEmpty
-        ? 'GPS: ${_address.NigeriaPost}'
+    final String? line3 = _address.ghanaPost.isNotEmpty
+        ? 'GPS: ${_address.ghanaPost}'
         : (_address.what3words.isNotEmpty ? '///${_address.what3words}' : null);
 
     return Row(

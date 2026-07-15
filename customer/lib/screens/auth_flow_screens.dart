@@ -1292,9 +1292,9 @@ class SetDeliveryScreen extends StatelessWidget {
                   _locationOption(
                     context,
                     Icons.map_outlined,
-                    'NigeriaPostGPS',
-                    'Enter your NigeriaPostGPS code',
-                    () => _navigateToLocationMethod(context, 'Nigeriapost'),
+                    'GhanaPostGPS',
+                    'Enter your GhanaPostGPS code',
+                    () => _navigateToLocationMethod(context, 'Ghanapost'),
                   ),
                   const SizedBox(height: 16),
                   _locationOption(
@@ -1383,8 +1383,8 @@ class _LocationInputScreenState extends State<_LocationInputScreen> {
         return 'Current Location';
       case 'what3words':
         return 'What3Words';
-      case 'Nigeriapost':
-        return 'NigeriaPostGPS';
+      case 'Ghanapost':
+        return 'GhanaPostGPS';
       case 'map':
         return 'Pick on Map';
       default:
@@ -1396,7 +1396,7 @@ class _LocationInputScreenState extends State<_LocationInputScreen> {
     switch (widget.method) {
       case 'what3words':
         return 'e.g. ///filled.count.soap';
-      case 'Nigeriapost':
+      case 'Ghanapost':
         return 'e.g. GA-123-4567';
       default:
         return 'Enter location';
@@ -1691,7 +1691,7 @@ class CurrentLocationScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text('Obuasi, Kumasi', style: AppFonts.inter(fontSize: 18, fontWeight: FontWeight.w600, color: const Color(0xFF1B1B1B))),
                   const SizedBox(height: 4),
-                  Text('Ashanti Region, Nigeria', style: AppFonts.inter(fontSize: 14, color: const Color(0xFF8A8A8E))),
+                  Text('Ashanti Region, Ghana', style: AppFonts.inter(fontSize: 14, color: const Color(0xFF8A8A8E))),
                   const SizedBox(height: 20),
                   _buildPrimaryButton('Confirm Location', onNext),
                   const SizedBox(height: 8),
